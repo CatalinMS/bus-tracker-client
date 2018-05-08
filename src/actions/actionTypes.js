@@ -1,0 +1,3 @@
+export const LOAD_BUSS_STATION = 'LOAD_BUSS_STATION';
+
+export const NEW_BUSS_LOCATION = 'NEW_BUSS_LOCATION';
