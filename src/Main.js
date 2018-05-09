@@ -54,18 +54,9 @@ export default class App extends Component {
                 onChange={isOpen => this.updateMenuState(isOpen)}
             >
                 <View style={styles.container}>
-                    <HomePage/>
+                    <HomePage onSideMenuClick={this.toggle}/>
                 </View>
 
-                <TouchableOpacity
-                    onPress={this.toggle}
-                    style={styles.button}
-                >
-                    <Image
-                        source={image}
-                        style={{width: 32, height: 32}}
-                    />
-                </TouchableOpacity>
             </SideMenu>
         );
     }

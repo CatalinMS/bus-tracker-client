@@ -53,9 +53,9 @@ class BussMap extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <MapView
-                    style={{alignSelf: 'stretch', height: 200}}
+                    style={{alignSelf: 'stretch', height: 550}}
                     region={this.state.mapRegion}
                 >
 
@@ -71,7 +71,6 @@ class BussMap extends Component {
                     }
 
                 </MapView>
-
             </View>
         );
     }
@@ -88,8 +87,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-    bussStation: state.bussStation || {},
-    bussLocation: state.bussLocation || {},
+    bussStation: state.bussStation,
+    bussLocation: state.bussLocation,
 });
 
 const mapDispatchToProps = {
