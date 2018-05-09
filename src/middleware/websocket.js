@@ -19,11 +19,13 @@ function factory({messageToActionAdapter}) {
 
                     socket = new SockJS(action.payload.url);
                     let stompClient = Stomp.over(socket);
+                    let topic = action.payload.topic == null ? "" : `/${action.payload.topic}`;
 
                     stompClient.connect({}, function (frame) {
                             console.log('Connected: ' + frame);
 
-                            stompClient.subscribe('/topic/line', function (msg) {
+
+                            stompClient.subscribe(`/topic/line${topic}`, function (msg) {
                                 dispatch(messageToActionAdapter(msg) ||
                                     {type: actionTypes.WEBSOCKET_MESSAGE, payload: msg.body});
                             });

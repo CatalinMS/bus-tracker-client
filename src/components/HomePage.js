@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Container, Header, Content, Button, Text} from 'native-base';
+import {Container, Header, Content, Button, Text, Left, Right, Title, Body} from 'native-base';
 
 import BussMap from "./map/BussMap";
 
@@ -23,15 +23,21 @@ class ButtonExample extends Component {
     render() {
         return (
             <Container>
-                <Header/>
-                <Content>
 
+                <Header>
+                    <Left/>
+                    <Body>
+                    <Title>Header</Title>
+                    </Body>
+                    <Right/>
+                </Header>
+
+                <Content>
                     <Button onPress={() => this.buttonPressed()} primary title={"A title"}>
                         <Text> Primary </Text>
                     </Button>
 
                     <BussMap/>
-
                 </Content>
             </Container>
         );

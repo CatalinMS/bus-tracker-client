@@ -12,9 +12,9 @@ export function messageToActionAdapter(msg) {
     return eventToActionAdapters[actionTypes.RECEIVE_NEW_BUSS_LOCATION](event);
 }
 
-export function connectToChatServer(url) {
+export function connectToLocationServer(url, topic) {
     return dispatch => {
-        dispatch({type: actionTypes.WEBSOCKET_CONNECT, payload: {url}});
+        dispatch({type: actionTypes.WEBSOCKET_CONNECT, payload: {url, topic}});
     }
 }
 

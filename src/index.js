@@ -1,21 +1,17 @@
 import React, {Component} from 'react';
-import {StatusBar, Platform} from 'react-native';
 import * as Expo from "expo";
 import PropTypes from 'prop-types';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
-
 import {Root, StyleProvider} from 'native-base';
 
 import Loading from './components/Loading';
-import HomePage from './components/HomePage';
-
-// Hide StatusBar on Android as it overlaps tabs
-// if (Platform.OS === 'android') StatusBar.setHidden(true);
+import Main from './Main';
 
 export default class App extends Component {
     constructor() {
         super();
+
         this.state = {
             isReady: false
         };
@@ -39,20 +35,19 @@ export default class App extends Component {
         if (!this.state.isReady) {
             return <Expo.AppLoading/>;
         }
+
         return (
             <Root>
                 <Provider store={this.props.store}>
-                    <PersistGate
-                        loading={<Loading/>}
-                        persistor={this.props.persistor}
-                    >
-                        <HomePage/>
+                    <PersistGate loading={<Loading/>} persistor={this.props.persistor}>
+
+                        <Main/>
+
                     </PersistGate>
                 </Provider>
             </Root>
         );
     }
-
 }
 
 App.propTypes = {
