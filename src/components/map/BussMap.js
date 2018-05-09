@@ -6,7 +6,8 @@ import {Constants, MapView,} from 'expo';
 import CustomMapViewMarker from './CustomMapViewMarker';
 
 import {loadBussStations} from "../../actions/bussStationActions";
-import {bussLocationListener} from "../../actions/bussLocationActions";
+import {connectToChatServer} from "../../actions/bussLocationActions";
+import {WEB_SOCKET_SERVER_URL} from "../../constants/constants";
 
 class BussMap extends Component {
     constructor() {
@@ -30,16 +31,23 @@ class BussMap extends Component {
         this.props.loadBussStations();
     }
 
+
     componentDidMount() {
         console.log("BussMap did mount");
 
-        this.props.bussLocationListener();
+        this.props.connectToChatServer(WEB_SOCKET_SERVER_URL);
     }
 
     renderBussLocations() {
+        console.log("new location");
         return this.props.bussLocation.locations
-            .map(location =>
-                <CustomMapViewMarker key={location.line} line={location.line} coordinates={location.coordinates}/>
+            .map(location => {
+                    console.log(location.line + " " + location.coordinate.latitude + " " + location.coordinate.longitude);
+
+                    return <CustomMapViewMarker key={location.line} line={location.line}
+                                                coordinates={location.coordinate}/>;
+
+                }
             );
     }
 
@@ -86,7 +94,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     loadBussStations,
-    bussLocationListener
+    connectToChatServer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BussMap);

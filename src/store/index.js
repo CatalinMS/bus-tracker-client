@@ -5,6 +5,9 @@ import storage from 'redux-persist/es/storage'; // default: localStorage if web,
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
 
+import websocket from '../middleware/websocket';
+import {messageToActionAdapter} from '../actions/bussLocationActions';
+
 // Redux Persist config
 const config = {
     key: 'root',
@@ -14,7 +17,10 @@ const config = {
 
 const reducer = persistCombineReducers(config, reducers);
 
-const middleware = [thunk];
+const middleware = [
+    thunk,
+    websocket({messageToActionAdapter})
+];
 
 const configureStore = () => {
     const store = createStore(

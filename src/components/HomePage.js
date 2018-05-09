@@ -18,7 +18,6 @@ class ButtonExample extends Component {
         console.log("press", this.props.recipes);
 
         this.props.loadBussStations();
-
     }
 
     render() {
@@ -26,14 +25,16 @@ class ButtonExample extends Component {
             <Container>
                 <Header/>
                 <Content>
+
                     <Button onPress={() => this.buttonPressed()} primary title={"A title"}>
                         <Text> Primary </Text>
                     </Button>
+
                     <BussMap/>
+
                 </Content>
             </Container>
         );
-
     }
 }
 
