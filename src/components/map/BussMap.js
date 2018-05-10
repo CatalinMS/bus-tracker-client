@@ -25,29 +25,17 @@ class BussMap extends Component {
         this.renderBussLocations = this.renderBussLocations.bind(this);
     }
 
-    componentWillMount() {
-        console.log("BussMap will mount");
-
-        // this.props.loadBussStations();
-    }
-
-
     componentDidMount() {
         console.log("BussMap did mount");
 
-        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`, "25");
+        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`);
     }
 
     renderBussLocations() {
-        console.log("new location");
         return this.props.bussLocation.locations
-            .map(location => {
-                    console.log(location.line + " " + location.coordinate.latitude + " " + location.coordinate.longitude);
-
-                    return <CustomMapViewMarker key={location.line} line={location.line}
-                                                coordinates={location.coordinate}/>;
-
-                }
+            .map(location => <CustomMapViewMarker key={location.line}
+                                                  line={location.line}
+                                                  coordinates={location.coordinate}/>
             );
     }
 
@@ -76,16 +64,6 @@ class BussMap extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#ecf0f1',
-    },
-});
-
 const mapStateToProps = state => ({
     bussStation: state.bussStation,
     bussLocation: state.bussLocation,
@@ -97,3 +75,13 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BussMap);
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: Constants.statusBarHeight,
+        backgroundColor: '#ecf0f1',
+    },
+});

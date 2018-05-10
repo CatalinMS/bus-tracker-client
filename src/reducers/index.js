@@ -1,6 +1,7 @@
 import status from './status';
 import bussStation from './bussStation';
 import bussLocation from './bussLocation';
+import lineNumbers from './lineNumbers';
 
 const rehydrated = (state = false, action) => {
     switch (action.type) {
@@ -15,5 +16,6 @@ export default {
     rehydrated,
     status,
     bussStation,
-    bussLocation
+    bussLocation,
+    lineNumbers,
 };

@@ -8,10 +8,12 @@ class NullSocket {
     }
 }
 
+const ALL_LINES = ".*";
+
 function factory({messageToActionAdapter}) {
     let socket = new NullSocket();
 
-    return ({dispatch}) => {
+    return dispatch => {
         return next => action => {
             switch (action.type) {
                 case actionTypes.WEBSOCKET_CONNECT:
@@ -19,11 +21,10 @@ function factory({messageToActionAdapter}) {
 
                     socket = new SockJS(action.payload.url);
                     let stompClient = Stomp.over(socket);
-                    let topic = action.payload.topic == null ? "" : `/${action.payload.topic}`;
+                    let topic = action.payload.topic == null ? ALL_LINES : `.${action.payload.topic}`;
 
                     stompClient.connect({}, function (frame) {
                             console.log('Connected: ' + frame);
-
 
                             stompClient.subscribe(`/topic/line${topic}`, function (msg) {
                                 dispatch(messageToActionAdapter(msg) ||
@@ -31,7 +32,7 @@ function factory({messageToActionAdapter}) {
                             });
 
                         },
-                        error => console.log(`Error while connecting to wensocket:  ${error}`));
+                        error => console.log(`Error while connecting to websocket:  ${error}`));
 
                     break;
                 case actionTypes.WEBSOCKET_SEND:

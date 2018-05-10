@@ -1,60 +1,40 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Container, Header, Content, Button, Text, Left, Right, Title, Body, Icon} from 'native-base';
 
 import BussMap from "./map/BussMap";
 
-import {loadBussStations} from "../actions/bussStationActions";
+const HomePage = ({onSideMenuClick}) => (
+    <Container>
+        <Header style={{
+            backgroundColor: '#F5792F',
+            height: 100,
+        }}>
+            <Left>
+                <Button transparent
+                        onPress={() => onSideMenuClick()}
+                        title={"Title"}
+                >
+                    <Icon name='menu'/>
+                </Button>
+            </Left>
 
-class HomePage extends Component {
-    constructor() {
-        super();
+            <Body>
+            <Title>Buss tracker</Title>
+            </Body>
 
-        this.buttonPressed = this.buttonPressed.bind(this);
-    }
+            <Right/>
+        </Header>
 
-    buttonPressed() {
-        console.log("press", this.props.recipes);
+        <Content>
+            <BussMap/>
+        </Content>
 
-        this.props.loadBussStations();
-    }
+    </Container>
+);
 
-    render() {
-        return (
-            <Container>
-                <Header style={{
-                    backgroundColor: '#00cc99',
-                    height: 100,
-                }}>
-                    <Left>
-                        <Button transparent
-                                onPress={() => this.props.onSideMenuClick()}
-                                title={"Title"}
-                        >
-                            <Icon name='menu'/>
-                        </Button>
-                    </Left>
-                    <Body>
-                    <Title>Buss tracker</Title>
-                    </Body>
-                    <Right/>
-                </Header>
-
-                <Content>
-                    <BussMap/>
-                </Content>
-            </Container>
-        );
-    }
-}
-
-const mapStateToProps = state => ({
-    recipes: state.recipes || {},
-});
-
-const mapDispatchToProps = {
-    loadBussStations
+HomePage.propTypes = {
+    onSideMenuClick: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;

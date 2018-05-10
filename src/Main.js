@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
-import {
-    StyleSheet,
-    View,
-    Image,
-    TouchableOpacity,
-} from 'react-native';
+import {connect} from 'react-redux';
+import {StyleSheet, View} from 'react-native';
 import SideMenu from 'react-native-side-menu';
 
 import HomePage from './components/HomePage';
 import Menu from './components/menu/Menu';
-import image from './assets/menu.png';
+import {loadLineNumbers} from "./actions/lineNumbersActions";
+import {loadBussStation} from "./actions/bussStationActions";
 
-export default class App extends Component {
+class Main extends Component {
     constructor() {
         super();
 
         this.state = {
             isOpen: false,
-            selectedItem: 'About',
         };
 
         this.toggle = this.toggle.bind(this);
         this.onMenuItemSelected = this.onMenuItemSelected.bind(this);
         this.updateMenuState = this.updateMenuState.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.loadLineNumbers();
     }
 
     toggle() {
@@ -36,16 +36,18 @@ export default class App extends Component {
     }
 
     onMenuItemSelected(item) {
-        console.log("selected " + item);
-
         this.setState({
-            isOpen: false,
-            selectedItem: item,
+            isOpen: false
         });
+
+        this.props.loadBussStation(item);
     }
 
     render() {
-        const menu = <Menu onItemSelected={this.onMenuItemSelected}/>;
+        const menu =
+            <Menu onItemSelected={this.onMenuItemSelected}
+                  lineNumbers={this.props.lineNumbers.lines}
+            />;
 
         return (
             <SideMenu
@@ -60,8 +62,18 @@ export default class App extends Component {
             </SideMenu>
         );
     }
-
 }
+
+const mapStateToProps = state => ({
+    lineNumbers: state.lineNumbers,
+});
+
+const mapDispatchToProps = {
+    loadLineNumbers,
+    loadBussStation,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const styles = StyleSheet.create({
     button: {
