@@ -39,6 +39,18 @@ class BussMap extends Component {
             );
     }
 
+    renderStationMarkers() {
+        return this.props.bussStations
+            .map((station, index) =>
+                <MapView.Marker
+                    key={index}
+                    coordinate={station}
+                    title={station.name}
+                >
+                </MapView.Marker>
+            );
+    }
+
     render() {
         return (
             <View>
@@ -57,6 +69,8 @@ class BussMap extends Component {
                             strokeColor="red"
                         />
                     }
+
+                    {this.renderStationMarkers()}
 
                 </MapView>
             </View>
