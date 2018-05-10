@@ -1,26 +1,24 @@
 import SockJS from 'sockjs-client';
 import {Stomp} from "stompjs/lib/stomp.js";
 import * as actionTypes from "../actions/actionTypes";
-
-class NullSocket {
-    send(message) {
-        console.log(`Warning: send called on NullSocket, dispatch a ${actionTypes.WEBSOCKET_CONNECT} first`);
-    }
-}
-
-const ALL_LINES = ".*";
+import {ALL_LINES} from "../constants/constants";
 
 function factory({messageToActionAdapter}) {
-    let socket = new NullSocket();
+    let stompClient = null;
 
     return dispatch => {
         return next => action => {
             switch (action.type) {
+
                 case actionTypes.WEBSOCKET_CONNECT:
                     console.log(`Connecting to ${action.payload.url}`);
 
-                    socket = new SockJS(action.payload.url);
-                    let stompClient = Stomp.over(socket);
+                    if (stompClient !== null) {
+                        stompClient.disconnect(() => console.log("disconnected"));
+                    }
+
+                    let socket = new SockJS(action.payload.url);
+                    stompClient = Stomp.over(socket);
                     let topic = action.payload.topic == null ? ALL_LINES : `.${action.payload.topic}`;
 
                     stompClient.connect({}, function (frame) {
@@ -38,9 +36,17 @@ function factory({messageToActionAdapter}) {
                 case actionTypes.WEBSOCKET_SEND:
                     console.log("WEBSOCKET_SEND");
 
-                    // socket.send(JSON.stringify(action.payload));
+                    // stompClient.send(JSON.stringify(action.payload));
+                    break;
+                case actionTypes.WEBSOCKET_DISCONNECT:
+                    console.log("WEBSOCKET_DISCONNECT");
+
+                    if (stompClient !== null) {
+                        stompClient.disconnect(() => console.log("disconnected"));
+                    }
                     break;
             }
+
             return next(action);
         }
     }

@@ -7,6 +7,8 @@ import HomePage from './components/HomePage';
 import Menu from './components/menu/Menu';
 import {loadLineNumbers} from "./actions/lineNumbersActions";
 import {loadBussStation} from "./actions/bussStationActions";
+import {connectToLocationServer} from "./actions/bussLocationActions";
+import {WEB_SOCKET_SERVER_URL} from "./constants/constants";
 
 class Main extends Component {
     constructor() {
@@ -35,12 +37,13 @@ class Main extends Component {
         this.setState({isOpen});
     }
 
-    onMenuItemSelected(item) {
+    onMenuItemSelected(lineNumber) {
         this.setState({
             isOpen: false
         });
 
-        this.props.loadBussStation(item);
+        this.props.loadBussStation(lineNumber);
+        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`, lineNumber);
     }
 
     render() {
@@ -71,6 +74,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     loadLineNumbers,
     loadBussStation,
+    connectToLocationServer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

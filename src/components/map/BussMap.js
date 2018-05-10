@@ -32,7 +32,7 @@ class BussMap extends Component {
     }
 
     renderBussLocations() {
-        return this.props.bussLocation.locations
+        return this.props.bussLocations
             .map(location => <CustomMapViewMarker key={location.line}
                                                   line={location.line}
                                                   coordinates={location.coordinate}/>
@@ -47,12 +47,12 @@ class BussMap extends Component {
                     region={this.state.mapRegion}
                 >
 
-                    {this.renderBussLocations()}
+                    {/*{this.renderBussLocations()}*/}
 
                     {
-                        this.props.bussStation.stations &&
+                        this.props.bussStations &&
                         <MapView.Polyline
-                            coordinates={this.props.bussStation.stations}
+                            coordinates={this.props.bussStations}
                             strokeWidth={3}
                             strokeColor="red"
                         />
@@ -65,8 +65,8 @@ class BussMap extends Component {
 }
 
 const mapStateToProps = state => ({
-    bussStation: state.bussStation,
-    bussLocation: state.bussLocation,
+    bussStations: state.bussStation.stations,
+    bussLocations: state.bussLocation.locations,
 });
 
 const mapDispatchToProps = {

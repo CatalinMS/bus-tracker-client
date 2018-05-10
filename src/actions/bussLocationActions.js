@@ -1,9 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
 const eventToActionAdapters = {
-    // RECEIVE_NEW_BUSS_LOCATION: ({id, timestamp, payload: {user, message}}) =>
-    //     ({type: MESSAGE_RECEIVED, payload: {id, timestamp, user, message}}),
-
     RECEIVE_NEW_BUSS_LOCATION: payload => ({type: actionTypes.RECEIVE_NEW_BUSS_LOCATION, payload})
 };
 
