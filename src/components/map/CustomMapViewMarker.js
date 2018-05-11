@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {MapView,} from 'expo';
+import PropTypes from 'prop-types';
 
 
 const CustomMapViewMarker = ({line, coordinates}) => (
@@ -32,5 +33,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
+
+CustomMapViewMarker.propTypes = {
+    line: PropTypes.string.isRequired,
+    coordinates: PropTypes.object.isRequired,
+};
 
 export default CustomMapViewMarker;
