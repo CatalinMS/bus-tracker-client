@@ -3,12 +3,11 @@ import {View, Text, StyleSheet} from 'react-native';
 import {MapView,} from 'expo';
 import PropTypes from 'prop-types';
 
-
 const CustomMapViewMarker = ({line, coordinates}) => (
     <MapView.Marker
         coordinate={coordinates}
         title={line}
-        description={"buss line"}
+        description={"Buss line"}
     >
         <View style={styles.circle}>
             <Text style={styles.pinText}>
@@ -17,6 +16,13 @@ const CustomMapViewMarker = ({line, coordinates}) => (
         </View>
     </MapView.Marker>
 );
+
+CustomMapViewMarker.propTypes = {
+    line: PropTypes.string.isRequired,
+    coordinates: PropTypes.object.isRequired,
+};
+
+export default CustomMapViewMarker;
 
 const styles = StyleSheet.create({
     circle: {
@@ -33,10 +39,3 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-
-CustomMapViewMarker.propTypes = {
-    line: PropTypes.string.isRequired,
-    coordinates: PropTypes.object.isRequired,
-};
-
-export default CustomMapViewMarker;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dimensions, StyleSheet, ScrollView, View, Image, Text} from 'react-native';
-import buss from '../../assets/buss-icon.png';
+import buss from '../../assets/menu-icon.png';
 
 const window = Dimensions.get('window');
 
