@@ -6,7 +6,7 @@ import SideMenu from 'react-native-side-menu';
 import HomePage from './components/HomePage';
 import Menu from './components/menu/Menu';
 import {loadLineNumbers} from "./actions/lineNumbersActions";
-import {loadBussStation} from "./actions/bussStationActions";
+import {loadBussStation, clearBussStations} from "./actions/bussStationActions";
 import {connectToLocationServer} from "./actions/bussLocationActions";
 import {WEB_SOCKET_SERVER_URL} from "./constants/constants";
 
@@ -19,7 +19,8 @@ class Main extends Component {
         };
 
         this.toggle = this.toggle.bind(this);
-        this.onMenuItemSelected = this.onMenuItemSelected.bind(this);
+        this.onBussLineSelected = this.onBussLineSelected.bind(this);
+        this.onAllLinesSelected = this.onAllLinesSelected.bind(this);
         this.updateMenuState = this.updateMenuState.bind(this);
     }
 
@@ -37,7 +38,7 @@ class Main extends Component {
         this.setState({isOpen});
     }
 
-    onMenuItemSelected(lineNumber) {
+    onBussLineSelected(lineNumber) {
         this.setState({
             isOpen: false
         });
@@ -46,9 +47,19 @@ class Main extends Component {
         this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`, lineNumber);
     }
 
+    onAllLinesSelected() {
+        this.setState({
+            isOpen: false
+        });
+
+        this.props.clearBussStations();
+        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`);
+    }
+
     render() {
         const menu =
-            <Menu onItemSelected={this.onMenuItemSelected}
+            <Menu onBussLineSelected={this.onBussLineSelected}
+                  onAllLinesSelected={this.onAllLinesSelected}
                   lineNumbers={this.props.lineNumbers.lines}
             />;
 
@@ -74,6 +85,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     loadLineNumbers,
     loadBussStation,
+    clearBussStations,
     connectToLocationServer,
 };
 

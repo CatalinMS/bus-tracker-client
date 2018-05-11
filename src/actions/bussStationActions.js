@@ -6,6 +6,10 @@ export function loadBussStationsSuccess(bussStations) {
     return {type: actionTypes.LOAD_BUSS_STATIONS, payload: bussStations};
 }
 
+export function clearBussStationSuccess() {
+    return {type: actionTypes.CLEAR_BUSS_STATIONS};
+}
+
 export function loadBussStationSuccess(bussStation) {
     return {type: actionTypes.LOAD_BUSS_STATION, payload: bussStation};
 }
@@ -35,4 +39,8 @@ export function loadBussStation(line) {
                 console.log("Error while loading buss station" + error);
             });
     };
+}
+
+export function clearBussStations() {
+    return dispatch => dispatch(clearBussStationSuccess());
 }

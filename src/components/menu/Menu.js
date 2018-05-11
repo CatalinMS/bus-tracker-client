@@ -14,7 +14,7 @@ export default class Menu extends Component {
                 style={styles.item_container}
             >
                 <Text
-                    onPress={() => this.props.onItemSelected(lineNumber)}
+                    onPress={() => this.props.onBussLineSelected(lineNumber)}
                     style={styles.item}
                 >
                     Line {lineNumber}
@@ -33,10 +33,25 @@ export default class Menu extends Component {
                     />
                 </View>
 
+                <View style={styles.item_container}>
+                    <Text
+                        onPress={() => this.props.onAllLinesSelected()}
+                        style={styles.item}
+                    >
+                        All lines
+                    </Text>
+                </View>
+
                 {this.renderLines(this.props.lineNumbers)}
             </ScrollView>
         );
     }
+};
+
+Menu.propTypes = {
+    onBussLineSelected: PropTypes.func.isRequired,
+    onAllLinesSelected: PropTypes.func.isRequired,
+    lineNumbers: PropTypes.array.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -74,8 +89,3 @@ const styles = StyleSheet.create({
         paddingTop: 3,
     }
 });
-
-Menu.propTypes = {
-    onItemSelected: PropTypes.func.isRequired,
-    lineNumbers: PropTypes.array.isRequired,
-};
