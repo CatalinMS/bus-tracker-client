@@ -1,12 +1,15 @@
 import * as actionTypes from "./actionTypes";
+import {ALL_LINES} from "../constants/constants";
 
 const eventToActionAdapters = {
-    RECEIVE_NEW_BUSS_LOCATION: payload => ({type: actionTypes.RECEIVE_NEW_BUSS_LOCATION, payload})
+    RECEIVE_NEW_BUSS_LOCATION_ALL: payload => ({type: actionTypes.RECEIVE_NEW_BUSS_LOCATION_ALL, payload}),
+    RECEIVE_NEW_BUSS_LOCATION_ONE: payload => ({type: actionTypes.RECEIVE_NEW_BUSS_LOCATION_ONE, payload}),
 };
 
-export function messageToActionAdapter(msg) {
+export function messageToActionAdapter(msg, topic) {
     const event = JSON.parse(msg.body);
-    return eventToActionAdapters[actionTypes.RECEIVE_NEW_BUSS_LOCATION](event);
+    return topic === ALL_LINES ? eventToActionAdapters['RECEIVE_NEW_BUSS_LOCATION_ALL'](event) :
+        eventToActionAdapters['RECEIVE_NEW_BUSS_LOCATION_ONE'](event);
 }
 
 export function connectToLocationServer(url, topic) {

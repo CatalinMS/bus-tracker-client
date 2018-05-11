@@ -25,7 +25,7 @@ function factory({messageToActionAdapter}) {
                             console.log('Connected: ' + frame);
 
                             stompClient.subscribe(`/topic/line${topic}`, function (msg) {
-                                dispatch(messageToActionAdapter(msg) ||
+                                dispatch(messageToActionAdapter(msg, topic) ||
                                     {type: actionTypes.WEBSOCKET_MESSAGE, payload: msg.body});
                             });
 

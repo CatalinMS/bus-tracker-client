@@ -6,7 +6,7 @@ export const initialState = Store;
 export default function bussLocationReducer(state = initialState, action) {
     switch (action.type) {
 
-        case actionTypes.RECEIVE_NEW_BUSS_LOCATION: {
+        case actionTypes.RECEIVE_NEW_BUSS_LOCATION_ALL: {
             let newBussLocation = action.payload;
 
             let lineIndex = state.locations.findIndex(l => l.line === newBussLocation.line);
@@ -19,6 +19,10 @@ export default function bussLocationReducer(state = initialState, action) {
             }
 
             return Object.assign(...state, {locations: newLocations});
+        }
+
+        case actionTypes.RECEIVE_NEW_BUSS_LOCATION_ONE: {
+            return Object.assign(...state, {locations: [action.payload]});
         }
 
 
