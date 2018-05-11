@@ -6,7 +6,7 @@ import {ALL_LINES} from "../constants/constants";
 function factory({messageToActionAdapter}) {
     let stompClient = null;
 
-    return dispatch => {
+    return ({dispatch}) => {
         return next => action => {
             switch (action.type) {
 
