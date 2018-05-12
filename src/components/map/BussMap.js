@@ -7,7 +7,7 @@ import {Constants, MapView, Location, Permissions} from 'expo';
 import CustomMapViewMarker from './CustomMapViewMarker';
 import Loading from '../Loading';
 import {connectToLocationServer} from "../../actions/bussLocationActions";
-import {WEB_SOCKET_SERVER_URL, DEFAULT_MAP_REGION} from "../../constants/constants";
+import {DEFAULT_MAP_REGION} from "../../constants/constants";
 import userPin from '../../assets/user-pin.png';
 import bussStationPin from '../../assets/buss-station-pin.png';
 
@@ -16,6 +16,7 @@ class BussMap extends Component {
         super();
 
         this.state = {
+            extraData: false,
             isReady: false,
             mapRegion: DEFAULT_MAP_REGION,
             userLocation: null,
@@ -30,7 +31,9 @@ class BussMap extends Component {
     }
 
     componentDidMount() {
-        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`);
+        // reload for marker image rendering
+        let self = this;
+        setTimeout(() => self.setState({extraData: true}), 100);
     }
 
     _getLocationAsync = async () => {
@@ -60,8 +63,6 @@ class BussMap extends Component {
     };
 
     renderBussLocations() {
-        console.log(this.props.bussLocations);
-
         return this.props.bussLocations
             .map(location =>
                 <CustomMapViewMarker key={location.line}
@@ -72,31 +73,23 @@ class BussMap extends Component {
     }
 
     renderStationMarkers() {
-        console.log(this.props.bussStations);
-
         return this.props.bussStations
             .map((station, index) =>
                 <MapView.Marker key={index}
+                                tracksViewChanges={false}
                                 coordinate={station}
                                 title={station.name}
-                >
-                    <Image source={bussStationPin}
-                           style={styles.pin}
-                    />
-                </MapView.Marker>
+                                image={bussStationPin}
+                />
             );
     }
 
     renderUserLocation() {
-        console.log(this.state.userLocation);
-
         return (
             <MapView.Marker coordinate={this.state.userLocation}
-                            title={"User"}>
-                <Image source={userPin}
-                       style={styles.pin}
-                />
-            </MapView.Marker>
+                            title={"User"}
+                            image={userPin}
+            />
         );
     }
 
@@ -112,7 +105,7 @@ class BussMap extends Component {
         return (
             <View>
                 <MapView
-                    style={{alignSelf: 'stretch', height: 550}}
+                    style={{alignSelf: 'stretch', height: 750}}
                     initialRegion={this.state.mapRegion}
                 >
 

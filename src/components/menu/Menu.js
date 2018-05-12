@@ -46,6 +46,7 @@ export default class Menu extends Component {
                 </View>
 
                 {this.renderLines(this.props.lineNumbers)}
+
             </ScrollView>
         );
     }

@@ -19,7 +19,6 @@ export default function bussStationReducer(state = initialState, action) {
             };
         }
         case actionTypes.LOAD_BUSS_STATION: {
-
             return {
                 ...state,
                 stations: action.payload.stations

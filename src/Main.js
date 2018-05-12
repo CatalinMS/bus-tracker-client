@@ -30,6 +30,10 @@ class Main extends Component {
         this.props.clearBussLocations();
     }
 
+    componentDidMount() {
+        this.props.connectToLocationServer(`${WEB_SOCKET_SERVER_URL}/locations`);
+    }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen,

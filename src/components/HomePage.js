@@ -8,7 +8,7 @@ const HomePage = ({onSideMenuClick}) => (
     <Container>
         <Header style={{
             backgroundColor: '#F5792F',
-            height: 100,
+            height: 125,
         }}>
             <Left>
                 <Button transparent
