@@ -18,13 +18,16 @@ export default function bussLocationReducer(state = initialState, action) {
                 newLocations[lineIndex] = newBussLocation;
             }
 
-            return Object.assign(...state, {locations: newLocations});
+            return Object.assign({}, state, {locations: newLocations});
         }
 
         case actionTypes.RECEIVE_NEW_BUSS_LOCATION_ONE: {
-            return Object.assign(...state, {locations: [action.payload]});
+            return Object.assign({}, state, {locations: [action.payload]});
         }
 
+        case actionTypes.CLEAR_BUSS_LOCATIONS: {
+            return Object.assign({}, state, {locations: []});
+        }
 
         case 'MEALS_REPLACE': {
             return {

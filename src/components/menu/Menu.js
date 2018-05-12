@@ -8,19 +8,22 @@ const window = Dimensions.get('window');
 export default class Menu extends Component {
 
     renderLines(lineNumbers) {
-        return lineNumbers.map((lineNumber, index) =>
-            <View
-                key={index}
-                style={styles.item_container}
-            >
-                <Text
-                    onPress={() => this.props.onBussLineSelected(lineNumber)}
-                    style={styles.item}
+        return lineNumbers
+            .map(line => parseInt(line))
+            .sort((a, b) => a - b)
+            .map((lineNumber, index) =>
+                <View
+                    key={index}
+                    style={styles.item_container}
                 >
-                    Line {lineNumber}
-                </Text>
-            </View>
-        )
+                    <Text
+                        onPress={() => this.props.onBussLineSelected(lineNumber)}
+                        style={styles.item}
+                    >
+                        Line {lineNumber}
+                    </Text>
+                </View>
+            )
     }
 
     render() {

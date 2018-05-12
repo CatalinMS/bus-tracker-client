@@ -5,6 +5,7 @@ import {View, StyleSheet, Image} from 'react-native';
 import {Constants, MapView, Location, Permissions} from 'expo';
 
 import CustomMapViewMarker from './CustomMapViewMarker';
+import Loading from '../Loading';
 import {connectToLocationServer} from "../../actions/bussLocationActions";
 import {WEB_SOCKET_SERVER_URL, DEFAULT_MAP_REGION} from "../../constants/constants";
 import userPin from '../../assets/user-pin.png';
@@ -15,6 +16,7 @@ class BussMap extends Component {
         super();
 
         this.state = {
+            isReady: false,
             mapRegion: DEFAULT_MAP_REGION,
             userLocation: null,
             errorMessage: null
@@ -35,8 +37,10 @@ class BussMap extends Component {
         let {status} = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {
             this.setState({
-                errorMessage: 'Permission to access location was denied. Fall back location to Cluj-Napoca',
+                errorMessage: 'Permission to access location was denied. Fall back to Cluj-Napoca',
+                isReady: true
             });
+            return;
         }
 
         let location = await Location.getCurrentPositionAsync({});
@@ -44,15 +48,20 @@ class BussMap extends Component {
             mapRegion: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
+                latitudeDelta: DEFAULT_MAP_REGION.latitudeDelta,
+                longitudeDelta: DEFAULT_MAP_REGION.longitudeDelta,
             },
             userLocation: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
-            }
+            },
+            isReady: true
         });
     };
 
     renderBussLocations() {
+        console.log(this.props.bussLocations);
+
         return this.props.bussLocations
             .map(location =>
                 <CustomMapViewMarker key={location.line}
@@ -63,6 +72,8 @@ class BussMap extends Component {
     }
 
     renderStationMarkers() {
+        console.log(this.props.bussStations);
+
         return this.props.bussStations
             .map((station, index) =>
                 <MapView.Marker key={index}
@@ -77,6 +88,8 @@ class BussMap extends Component {
     }
 
     renderUserLocation() {
+        console.log(this.state.userLocation);
+
         return (
             <MapView.Marker coordinate={this.state.userLocation}
                             title={"User"}>
@@ -88,15 +101,19 @@ class BussMap extends Component {
     }
 
     render() {
-        if (this.state.errorMessage !== null) {
-            console.log(this.state.errorMessage); // todo show alert
+        if (!this.state.isReady) {
+            return (
+                <View style={styles.spinnerStyle}>
+                    <Loading/>
+                </View>
+            );
         }
 
         return (
             <View>
                 <MapView
                     style={{alignSelf: 'stretch', height: 550}}
-                    region={this.state.mapRegion}
+                    initialRegion={this.state.mapRegion}
                 >
 
                     {this.renderBussLocations()}
@@ -106,7 +123,7 @@ class BussMap extends Component {
                         <MapView.Polyline
                             coordinates={this.props.bussStations}
                             strokeWidth={3}
-                            strokeColor="red"
+                            strokeColor={'#71020c'}
                         />
                     }
 
@@ -150,5 +167,11 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 24,
         flex: 1,
+    },
+    spinnerStyle: {
+        flex: 1,
+        marginTop: 240,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });

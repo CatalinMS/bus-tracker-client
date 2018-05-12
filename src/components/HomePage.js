@@ -14,16 +14,17 @@ const HomePage = ({onSideMenuClick}) => (
                 <Button transparent
                         onPress={() => onSideMenuClick()}
                         title={"Title"}
+                        style={{marginTop: 25}}
                 >
                     <Icon name='menu'/>
                 </Button>
             </Left>
 
-            <Body>
+            <Body style={{marginTop: 25}}>
             <Title>Buss tracker</Title>
             </Body>
 
-            <Right/>
+            <Right style={{marginTop: 25}}/>
         </Header>
 
         <Content>

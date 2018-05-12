@@ -7,7 +7,7 @@ import HomePage from './components/HomePage';
 import Menu from './components/menu/Menu';
 import {loadLineNumbers} from "./actions/lineNumbersActions";
 import {loadBussStation, clearBussStations} from "./actions/bussStationActions";
-import {connectToLocationServer} from "./actions/bussLocationActions";
+import {connectToLocationServer, clearBussLocations} from "./actions/bussLocationActions";
 import {WEB_SOCKET_SERVER_URL} from "./constants/constants";
 
 class Main extends Component {
@@ -26,6 +26,8 @@ class Main extends Component {
 
     componentWillMount() {
         this.props.loadLineNumbers();
+        this.props.clearBussStations();
+        this.props.clearBussLocations();
     }
 
     toggle() {
@@ -85,6 +87,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     loadLineNumbers,
     loadBussStation,
+    clearBussLocations,
     clearBussStations,
     connectToLocationServer,
 };

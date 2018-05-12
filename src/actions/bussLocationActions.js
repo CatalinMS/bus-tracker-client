@@ -15,7 +15,12 @@ export function messageToActionAdapter(msg, topic) {
 export function connectToLocationServer(url, topic) {
     return dispatch => {
         dispatch({type: actionTypes.WEBSOCKET_CONNECT, payload: {url, topic}});
+        dispatch({type: actionTypes.CLEAR_BUSS_LOCATIONS});
     }
+}
+
+export function clearBussLocations() {
+    return dispatch => dispatch({type: actionTypes.CLEAR_BUSS_LOCATIONS});
 }
 
 // export function sendMessage(user, message) {
